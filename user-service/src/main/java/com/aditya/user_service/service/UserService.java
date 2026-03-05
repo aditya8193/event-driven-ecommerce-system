@@ -36,7 +36,7 @@ public class UserService {
                 .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role("USER")
+                .role("ADMIN")
                 .createdAt(LocalDateTime.now())
                 .build();
 

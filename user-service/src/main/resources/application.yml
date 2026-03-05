@@ -14,6 +14,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        default_schema: user_schema
     open-in-view: false
 
 server:

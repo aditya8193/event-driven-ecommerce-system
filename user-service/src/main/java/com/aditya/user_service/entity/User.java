@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EnableJpaAuditing
 @EntityListeners(AuditingEntityListener.class)
 public class User {
 
