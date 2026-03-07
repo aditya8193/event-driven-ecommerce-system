@@ -9,6 +9,7 @@ import com.aditya.order_service.exception.OrderNotFoundException;
 import com.aditya.order_service.kafka.OrderEventProducer;
 import com.aditya.order_service.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OrderService {
 
     private final OrderRepository orderRepository;
@@ -59,7 +61,7 @@ public class OrderService {
 
     public List<OrderResponse> getOrderByUserId(Long userId) {
 
-        List<Order> orders = orderRepository.findAll();
+        List<Order> orders = orderRepository.findByUserId(userId);
 
         return orders.stream().map(this::mapToResponse).toList();
     }

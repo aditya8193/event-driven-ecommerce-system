@@ -2,11 +2,11 @@ package com.aditya.order_service.controller;
 
 import com.aditya.order_service.dto.CreateOrderRequest;
 import com.aditya.order_service.dto.OrderResponse;
-import com.aditya.order_service.entity.Order;
 import com.aditya.order_service.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,9 +19,8 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<OrderResponse> createOrder(@Valid @RequestBody CreateOrderRequest request) {
-        Long mockUserId = 1L;
-        return ResponseEntity.ok(orderService.createOrder(mockUserId, request));
+    public ResponseEntity<OrderResponse> createOrder(@AuthenticationPrincipal Long userId, @Valid @RequestBody CreateOrderRequest request) {
+        return ResponseEntity.ok(orderService.createOrder(userId, request));
     }
 
     @GetMapping("/{id}")
