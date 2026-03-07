@@ -1,6 +1,9 @@
 server:
   port: 8082
 
+jwt:
+  secret: ecommerce-secret-key
+
 spring:
   application:
     name: product-service
