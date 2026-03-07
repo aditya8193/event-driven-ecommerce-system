@@ -32,11 +32,21 @@ public class UserService {
             throw new CustomException("User Already Exists");
         }
 
+        String role = request.getRole();
+
+        if (role == null || role.isEmpty()) {
+            role = "USER";
+        }
+
+        if (!role.equals("USER") && !role.equals("ADMIN")) {
+            throw new RuntimeException("Invalid Role");
+        }
+
         User user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role("ADMIN")
+                .role(role)
                 .createdAt(LocalDateTime.now())
                 .build();
 
@@ -59,6 +69,6 @@ public class UserService {
             throw new CustomException("Invalid password");
         }
 
-        return jwtUtil.generateToken(user.getEmail(), user.getRole());
+        return jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole());
     }
 }

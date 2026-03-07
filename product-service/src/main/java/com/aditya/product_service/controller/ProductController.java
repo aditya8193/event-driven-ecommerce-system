@@ -45,9 +45,9 @@ public class ProductController {
     }
 
     @PostMapping("/{id}/reduce-stock")
-    public ResponseEntity<String> reduceStock(@PathVariable Long id, @RequestParam Integer quantity) {
+    public ResponseEntity<Void> reduceStock(@PathVariable Long id, @RequestParam Integer quantity) {
         productService.reduceStock(id, quantity);
-        return ResponseEntity.ok("Stock reduced successfully");
+        return ResponseEntity.ok().build();
     }
 
 }

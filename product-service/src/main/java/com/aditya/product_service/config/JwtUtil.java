@@ -43,4 +43,14 @@ public class JwtUtil {
                 .getBody()
                 .get("role", String.class);
     }
+
+    public Long extractUserId(String token) {
+
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("userId", Long.class);
+    }
 }
