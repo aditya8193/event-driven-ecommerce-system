@@ -1,4 +1,4 @@
-package com.aditya.product_service.event;
+package org.aditya.common.events;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +14,5 @@ public class StockReducedEvent {
     private Long orderId;
     private Long productId;
     private Integer quantity;
-    private Boolean success;
 
 }

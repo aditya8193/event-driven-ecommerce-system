@@ -1,8 +1,8 @@
 package com.aditya.order_service.kafka;
 
-import com.aditya.order_service.event.OrderCreatedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aditya.common.events.OrderCreatedEvent;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class OrderEventProducer {
 
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final KafkaTemplate<String, OrderCreatedEvent> kafkaTemplate;
 
     public void sendOrderCreatedEvent(OrderCreatedEvent event) {
 
         log.info("Publishing OrderCreatedEvent for orderId={}", event.getOrderId());
 
-        kafkaTemplate.send("order-created", event);
+        kafkaTemplate.send("order-created", event.getOrderId().toString(), event);
     }
 
 }

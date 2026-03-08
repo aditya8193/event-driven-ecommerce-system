@@ -90,6 +90,11 @@
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.aditya</groupId>
+			<artifactId>common-events</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

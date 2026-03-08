@@ -24,6 +24,8 @@ public class Order {
 
     private Integer quantity;
 
+    private Double amount;
+
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 

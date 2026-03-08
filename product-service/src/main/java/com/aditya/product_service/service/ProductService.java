@@ -4,11 +4,11 @@ import com.aditya.product_service.dto.CreateProductRequest;
 import com.aditya.product_service.dto.ProductResponse;
 import com.aditya.product_service.entity.Product;
 import com.aditya.product_service.event.ProductCreatedEvent;
-import com.aditya.product_service.event.StockReducedEvent;
 import com.aditya.product_service.exception.InsufficientStockException;
 import com.aditya.product_service.exception.ProductNotFoundException;
 import com.aditya.product_service.kafka.ProductEventProducer;
 import com.aditya.product_service.repository.ProductRepository;
+import org.aditya.common.events.StockReducedEvent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +21,6 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

@@ -1,6 +1,6 @@
 package com.aditya.order_service.config;
 
-import com.aditya.order_service.event.StockReducedEvent;
+import org.aditya.common.events.StockReducedEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
@@ -19,13 +19,10 @@ import java.util.Map;
 public class KafkaConsumerConfig {
 
     @Bean
-    public ConsumerFactory<String, StockReducedEvent> consumerFactory() {
+    public ConsumerFactory<String, Object> consumerFactory() {
 
-        JsonDeserializer<StockReducedEvent> deserializer =
-                new JsonDeserializer<>(StockReducedEvent.class, false);
-
+        JsonDeserializer<Object> deserializer = new JsonDeserializer<>();
         deserializer.addTrustedPackages("*");
-        deserializer.ignoreTypeHeaders();
 
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
@@ -39,9 +36,9 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, StockReducedEvent> kafkaListenerContainerFactory() {
+    public ConcurrentKafkaListenerContainerFactory<String, Object> kafkaListenerContainerFactory() {
 
-        ConcurrentKafkaListenerContainerFactory<String, StockReducedEvent> factory =
+        ConcurrentKafkaListenerContainerFactory<String, Object> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
 
         factory.setConsumerFactory(consumerFactory());

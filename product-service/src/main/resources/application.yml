@@ -39,7 +39,6 @@ spring:
       acks: all
       retries: 3
       properties:
-        spring.json.add.type.headers: false
         linger.ms: 5
 
     consumer:
@@ -50,5 +49,3 @@ spring:
 
       properties:
         spring.json.trusted.packages: "*"
-        spring.json.value.default.type: com.aditya.product_service.event.OrderCreatedEvent
-        spring.json.use.type.headers: false

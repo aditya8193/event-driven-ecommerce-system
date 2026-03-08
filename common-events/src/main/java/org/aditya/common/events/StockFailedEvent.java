@@ -1,19 +1,19 @@
-package com.aditya.order_service.event;
+package org.aditya.common.events;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StockReducedEvent {
+public class StockFailedEvent {
 
     private Long orderId;
     private Long productId;
     private Integer quantity;
-    private Boolean success;
+    private String reason;
 
 }

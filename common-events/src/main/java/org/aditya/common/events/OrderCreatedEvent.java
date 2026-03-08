@@ -1,4 +1,4 @@
-package com.aditya.product_service.event;
+package org.aditya.common.events;
 
 import lombok.*;
 
@@ -11,9 +11,9 @@ public class OrderCreatedEvent {
 
     private String eventId;
 
-    private Long orderId;
-
     private Long userId;
+
+    private Long orderId;
 
     private Long productId;
 
