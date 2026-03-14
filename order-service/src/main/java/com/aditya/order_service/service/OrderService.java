@@ -5,11 +5,16 @@ import com.aditya.order_service.dto.CreateOrderRequest;
 import com.aditya.order_service.dto.OrderResponse;
 import com.aditya.order_service.dto.PaymentRequest;
 import com.aditya.order_service.dto.PaymentResponse;
+import com.aditya.order_service.entity.EventStatus;
 import com.aditya.order_service.entity.Order;
 import com.aditya.order_service.entity.OrderStatus;
+import com.aditya.order_service.entity.OutboxEvent;
 import com.aditya.order_service.exception.OrderNotFoundException;
 import com.aditya.order_service.kafka.OrderEventProducer;
 import com.aditya.order_service.repository.OrderRepository;
+import com.aditya.order_service.repository.OutboxEventRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aditya.common.events.OrderCreatedEvent;
@@ -27,8 +32,10 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderEventProducer orderEventProducer;
     private final PaymentClient paymentClient;
+    private final OutboxEventRepository outboxEventRepository;
+    private final ObjectMapper objectMapper;
 
-    public OrderResponse createOrder(Long user_id, CreateOrderRequest request) {
+    public OrderResponse createOrder(Long user_id, CreateOrderRequest request) throws JsonProcessingException {
 
         Order order = Order.builder()
                 .userId(user_id)
@@ -70,6 +77,8 @@ public class OrderService {
                 .quantity(savedOrder.getQuantity())
                 .build();
 
+        saveOutboxEvent(order, event);
+
         orderEventProducer.sendOrderCreatedEvent(event);
 
         return mapToResponse(savedOrder);
@@ -102,5 +111,23 @@ public class OrderService {
                 .status(order.getStatus())
                 .createdAt(order.getCreatedAt())
                 .build();
+    }
+
+    private void saveOutboxEvent(Order order, OrderCreatedEvent event) throws JsonProcessingException {
+
+        String payload = objectMapper.writeValueAsString(event);
+
+        OutboxEvent outboxEvent = OutboxEvent.builder()
+                .id(UUID.randomUUID())
+                .aggregateType("Order")
+                .aggregateId(order.getId())
+                .eventType("OrderCreatedEvent")
+                .payload(payload)
+                .status(EventStatus.PENDING)
+                .retryCount(0)
+                .createdAt(LocalDateTime.now())
+                .build();
+
+        outboxEventRepository.save(outboxEvent);
     }
 }

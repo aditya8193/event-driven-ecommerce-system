@@ -3,6 +3,7 @@ package com.aditya.order_service.controller;
 import com.aditya.order_service.dto.CreateOrderRequest;
 import com.aditya.order_service.dto.OrderResponse;
 import com.aditya.order_service.service.OrderService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<OrderResponse> createOrder(@RequestHeader("X-User-Id") Long userId, @Valid @RequestBody CreateOrderRequest request) {
+    public ResponseEntity<OrderResponse> createOrder(@RequestHeader("X-User-Id") Long userId, @Valid @RequestBody CreateOrderRequest request) throws JsonProcessingException {
         return ResponseEntity.ok(orderService.createOrder(userId, request));
     }
 
