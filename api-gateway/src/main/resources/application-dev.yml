@@ -46,3 +46,16 @@ management:
     web:
       exposure:
         include: health
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: user-service
+        url: /v3/api-docs/user
+      - name: product-service
+        url: /v3/api-docs/product
+      - name: order-service
+        url: /v3/api-docs/order
+      - name: payment-service
+        url: /v3/api-docs/payment

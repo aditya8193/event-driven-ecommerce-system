@@ -1,58 +1,156 @@
-# Event Driven E-Commerce System
+# 🚀 Event-Driven E-Commerce Microservices System
 
-A microservices based backend system built using Spring Boot and Apache Kafka.
+A **production-grade backend system** built using **Microservices Architecture** and **Event-Driven Design**, simulating real-world distributed systems used in modern applications.
 
-## Tech Stack
+---
 
-Java 17  
-Spring Boot 3  
-Spring Security  
-PostgreSQL  
-Redis  
-Apache Kafka  
-Docker  
-JPA / Hibernate
+## 🧠 Project Overview
 
-## Architecture
+This project demonstrates:
 
-Microservices architecture with event-driven communication using Kafka.
+* Microservices communication using **Apache Kafka**
+* **Saga Pattern (Orchestration)** for distributed transactions
+* **Transactional Outbox Pattern** for reliable messaging
+* **Idempotent Consumers** to prevent duplicate processing
+* **Resilience patterns** using Circuit Breaker
+* Full **observability stack** (logs, metrics, tracing)
 
-Services:
-- User Service (Authentication)
-- Product Service (Product Management)
-- Order Service (Order Processing)
+👉 This is NOT a CRUD project — it is a **distributed system**.
 
-## Event Flow
+---
 
-Order Service → publishes `order-created`
+## 🏗 Architecture
 
-Product Service → consumes event and reduces stock
+High-Level Flow:
 
-Product Service → publishes `stock-reduced`
+Client > 
+API Gateway >
+Microservices >
+Kafka Event Bus >
+Databases
 
-Order Service → updates order status
+---
 
-## Infrastructure
+## 🧩 Microservices
 
-Docker containers used for:
+| Service         | Port | Responsibility                   |
+| --------------- | ---- | -------------------------------- |
+| API Gateway     | 8080 | Routing, JWT validation          |
+| User Service    | 8081 | Authentication & user management |
+| Product Service | 8082 | Product & inventory              |
+| Order Service   | 8083 | Saga orchestration               |
+| Payment Service | 8084 | Payment processing               |
 
-- PostgreSQL
-- Redis
-- Kafka
-- Zookeeper
+---
 
-## How to Run
+## 🔁 Event-Driven Flow
 
-1 Start infrastructure
+1. Order Service publishes `order-created`
+2. Product Service consumes event and updates stock
+3. Product Service publishes:
 
+    * `stock-reduced` (success)
+    * `stock-failed` (failure)
+4. Order Service:
+
+    * Confirms order OR
+    * Triggers refund via Payment Service
+
+---
+
+## ⚙️ Reliability Patterns
+
+* ✔ Transactional Outbox Pattern
+* ✔ Idempotent Consumer
+* ✔ Retry + Dead Letter Queue (DLQ)
+* ✔ Circuit Breaker (Resilience4j)
+
+---
+
+## 📊 Observability
+
+* **Tracing:** Zipkin (Micrometer)
+* **Logging:** Logstash → Elasticsearch → Kibana
+* **Metrics:** Prometheus → Grafana
+
+---
+
+## 🛠 Tech Stack
+
+* Java 17
+* Spring Boot 3
+* Spring Security (JWT)
+* PostgreSQL
+* Redis
+* Apache Kafka
+* Docker
+* JPA / Hibernate
+
+---
+
+## 🐳 Infrastructure
+
+Dockerized services:
+
+* PostgreSQL
+* Kafka & Zookeeper
+* Redis
+* Zipkin
+* Elasticsearch + Logstash + Kibana
+* Prometheus + Grafana
+
+---
+
+## ▶ How to Run
+
+### 1. Start infrastructure
+
+```bash
 docker-compose up -d
+```
 
-2 Run services
+### 2. Run microservices
 
-User Service → 8081  
-Product Service → 8082  
-Order Service → 8083
+| Service         | URL                   |
+| --------------- | --------------------- |
+| User Service    | http://localhost:8081 |
+| Product Service | http://localhost:8082 |
+| Order Service   | http://localhost:8083 |
 
-3 Open Swagger
+---
 
-http://localhost:8081/swagger-ui.html
+## 📚 API Documentation
+
+Centralized Swagger UI is available via API Gateway:
+
+http://localhost:8080/swagger-ui.html
+
+All microservices APIs are aggregated into a single interface.
+
+---
+
+## 🧪 Testing Flow
+
+1. Register & Login (User Service)
+2. Create Order
+3. Observe Kafka events
+4. Check order status (CONFIRMED / FAILED)
+
+---
+
+## 📦 Future Improvements
+
+* Kubernetes deployment
+* CI/CD pipeline (GitHub Actions)
+* Load testing (k6)
+
+---
+
+## ⭐ Key Highlights
+
+✔ Event-driven microservices system
+✔ Distributed transactions using Saga
+✔ Production-level observability
+✔ Fault-tolerant design
+
+---
