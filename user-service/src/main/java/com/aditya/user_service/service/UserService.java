@@ -3,6 +3,7 @@ package com.aditya.user_service.service;
 import com.aditya.user_service.config.JwtUtil;
 import com.aditya.user_service.dto.LoginRequest;
 import com.aditya.user_service.dto.RegisterRequest;
+import com.aditya.user_service.entity.Role;
 import com.aditya.user_service.entity.User;
 import com.aditya.user_service.exception.CustomException;
 import com.aditya.user_service.repository.UserRepository;
@@ -32,21 +33,13 @@ public class UserService {
             throw new CustomException("User Already Exists");
         }
 
-        String role = request.getRole();
-
-        if (role == null || role.isEmpty()) {
-            role = "USER";
-        }
-
-        if (!role.equals("USER") && !role.equals("ADMIN")) {
-            throw new RuntimeException("Invalid Role");
-        }
+        Role role = Role.valueOf(request.getRole().toUpperCase());
 
         User user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(role)
+                .role(Role.valueOf(String.valueOf(role)))
                 .createdAt(LocalDateTime.now())
                 .build();
 
@@ -69,6 +62,6 @@ public class UserService {
             throw new CustomException("Invalid password");
         }
 
-        return jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole());
+        return jwtUtil.generateToken(user.getId(), user.getEmail(), String.valueOf(user.getRole()));
     }
 }

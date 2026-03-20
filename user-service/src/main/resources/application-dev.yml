@@ -1,0 +1,30 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://ecommerce-postgres:5432/ecommerce
+    username: postgres
+    password: postgres
+    hikari:
+      initializationFailTimeout: 60000
+      connectionTimeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        default_schema: user_schema
+    show-sql: true
+    open-in-view: false
+
+jwt:
+  secret: mysecretkeymysecretkeymysecretkey123
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health

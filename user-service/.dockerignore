@@ -1,0 +1,19 @@
+# Maven build output
+target/*
+!target/*.jar
+
+# Git files
+.git
+.gitignore
+
+# Logs
+*.log
+
+# Environment files
+.env
+
+# Docs
+README.md
+
+# Node modules (if present)
+node_modules

@@ -3,11 +3,15 @@ package com.aditya.user_service.dto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 public class ApiResponse<T> {
 
     private String message;
     private T data;
+    private int status;
+    private LocalDateTime timeStamp;
 
 }
