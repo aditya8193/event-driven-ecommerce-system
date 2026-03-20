@@ -35,10 +35,11 @@ public class OutboxPublisher {
         for(OutboxEvent event : events) {
 
             try {
+                log.info("Publishing outbox event {}", event.getId());
 
                 OrderCreatedEvent orderEvent = objectMapper.readValue(event.getPayload(), OrderCreatedEvent.class);
 
-                kafkaTemplate.send("order-created", orderEvent);
+                kafkaTemplate.send("order-created", orderEvent.getOrderId().toString(), orderEvent);
 
                 event.setStatus(EventStatus.PROCESSED);
                 event.setProcessedAt(LocalDateTime.now());

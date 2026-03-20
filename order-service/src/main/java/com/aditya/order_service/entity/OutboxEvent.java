@@ -2,12 +2,14 @@ package com.aditya.order_service.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "outbox_event")
+@Table(name = "outbox_event", schema = "order_schema")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -25,6 +27,7 @@ public class OutboxEvent {
     private String eventType;
 
     @Column(columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
     private String payload;
 
     @Enumerated(EnumType.STRING)

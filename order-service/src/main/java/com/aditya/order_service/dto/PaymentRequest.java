@@ -2,6 +2,8 @@ package com.aditya.order_service.dto;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class PaymentRequest {
 
@@ -9,6 +11,6 @@ public class PaymentRequest {
 
     private Long userId;
 
-    private Double amount;
+    private BigDecimal amount;
 
 }

@@ -24,18 +24,21 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
 
         String path = exchange.getRequest().getURI().getPath();
 
-        if(path.startsWith("/api/auth")) {
+        if (path.startsWith("/api/auth") ||
+                path.startsWith("/swagger") ||
+                path.startsWith("/v3/api-docs") ||
+                path.startsWith("/actuator")) {
             return chain.filter(exchange);
         }
 
-        List<String> authHeaders = exchange.getRequest().getHeaders().get("Authorization");
+        String authHeader = exchange.getRequest().getHeaders().getFirst("Authorization");
 
-        if (authHeaders == null || authHeaders.isEmpty()) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
 
-        String token = authHeaders.getFirst().replace("Bearer ", "");
+        String token = authHeader.substring(7);
 
         try {
             Claims claims = jwtUtil.validateToken(token);

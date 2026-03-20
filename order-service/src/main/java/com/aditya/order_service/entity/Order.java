@@ -2,11 +2,18 @@ package com.aditya.order_service.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "orders")
+@Table(
+        name="orders",
+        indexes={
+                @Index(name="idx_order_user", columnList="userId")
+        }
+)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -24,11 +31,13 @@ public class Order {
 
     private Integer quantity;
 
-    private Double amount;
+    private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
 }

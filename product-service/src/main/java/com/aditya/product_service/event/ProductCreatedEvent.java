@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,7 +15,7 @@ public class ProductCreatedEvent {
 
     private Long productId;
     private String name;
-    private Double price;
+    private BigDecimal price;
     private Integer quantity;
 
 }

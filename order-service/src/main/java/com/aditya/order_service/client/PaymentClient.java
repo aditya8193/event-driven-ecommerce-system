@@ -19,7 +19,7 @@ public class PaymentClient {
     public PaymentResponse processPayment(PaymentRequest request) {
 
         return webClient.post()
-                .uri("http://localhost:8084/payments")
+                .uri("http://payment-service:8084/payments")
                 .bodyValue(request)
                 .retrieve()
                 .bodyToMono(PaymentResponse.class)

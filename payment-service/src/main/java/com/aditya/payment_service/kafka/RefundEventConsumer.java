@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aditya.common.events.PaymentRefundEvent;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class RefundEventConsumer {
 
     private final PaymentRepository paymentRepository;
 
+    @Transactional
     @KafkaListener(
             topics = "payment-refund",
             groupId = "payment-service-group"

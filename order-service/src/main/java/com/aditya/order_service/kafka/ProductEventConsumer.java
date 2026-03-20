@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aditya.common.events.StockReducedEvent;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ public class ProductEventConsumer {
 
     private final OrderRepository orderRepository;
 
+    @Transactional
     @KafkaListener(topics = "stock-reduced", groupId = "order-service-group", containerFactory = "kafkaListenerContainerFactory")
     public void handleStockReducedEvent(StockReducedEvent event) {
 

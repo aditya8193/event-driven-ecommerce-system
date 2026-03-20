@@ -2,6 +2,8 @@ package org.aditya.common.events;
 
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,6 +14,6 @@ public class PaymentRefundEvent {
 
     private Long userId;
 
-    private Double amount;
+    private BigDecimal amount;
 
 }

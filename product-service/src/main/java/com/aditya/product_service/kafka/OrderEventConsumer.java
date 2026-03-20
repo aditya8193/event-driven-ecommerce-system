@@ -61,6 +61,8 @@ public class OrderEventConsumer {
 
             productEventProducer.publishStockReduced(stockReducedEvent);
 
+            processedEventRepository.save(new ProcessedEvent(event.getEventId(), LocalDateTime.now()));
+
         } catch (InsufficientStockException e) {
 
             log.warn(
@@ -90,8 +92,6 @@ public class OrderEventConsumer {
 
             deadLetterProducer.sendToDLQ(event);
 
-        } finally {
-            processedEventRepository.save(new ProcessedEvent(event.getEventId(), LocalDateTime.now()));
         }
     }
 }

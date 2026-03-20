@@ -6,6 +6,7 @@ import com.aditya.order_service.service.OrderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<OrderResponse> createOrder(@RequestHeader("X-User-Id") Long userId, @Valid @RequestBody CreateOrderRequest request) throws JsonProcessingException {
-        return ResponseEntity.ok(orderService.createOrder(userId, request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(userId, request));
     }
 
     @GetMapping("/{id}")

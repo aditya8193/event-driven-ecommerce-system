@@ -6,6 +6,8 @@ import com.aditya.product_service.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +22,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody CreateProductRequest request) {
-        return ResponseEntity.ok(productService.createProduct(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.createProduct(request));
     }
 
     @GetMapping
@@ -41,13 +43,6 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProductId(@PathVariable Long id) {
         productService.deleteProductId(id);
-        return ResponseEntity.ok("Product Deleted Successfully");
+        return ResponseEntity.noContent().build();
     }
-
-    @PostMapping("/{id}/reduce-stock")
-    public ResponseEntity<Void> reduceStock(@PathVariable Long id, @RequestParam Integer quantity) {
-        productService.reduceStock(id, quantity);
-        return ResponseEntity.ok().build();
-    }
-
 }

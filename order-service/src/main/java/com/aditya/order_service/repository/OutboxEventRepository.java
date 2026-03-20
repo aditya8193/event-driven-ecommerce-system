@@ -13,13 +13,13 @@ import java.util.UUID;
 public interface OutboxEventRepository extends JpaRepository<OutboxEvent, UUID> {
 
     @Query(value = """
-        SELECT *
-        FROM outbox_event
-        WHERE status = 'PENDING'
-        ORDER BY created_at
-        LIMIT 10
-        FOR UPDATE SKIP LOCKED
-        """, nativeQuery = true)
+    SELECT *
+    FROM order_schema.outbox_event
+    WHERE status = 'PENDING'
+    ORDER BY created_at
+    LIMIT 10
+    FOR UPDATE SKIP LOCKED
+    """, nativeQuery = true)
     List<OutboxEvent> findPendingEventsForUpdate();
 
 }

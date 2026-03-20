@@ -3,10 +3,14 @@ package com.aditya.payment_service.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "payments")
+@Table(
+        name = "payments",
+        indexes = @Index(name = "idx_payment_order", columnList = "orderId")
+)
 @Getter
 @Setter
 @AllArgsConstructor
@@ -22,7 +26,7 @@ public class Payment {
 
     private Long orderId;
 
-    private Double amount;
+    private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;

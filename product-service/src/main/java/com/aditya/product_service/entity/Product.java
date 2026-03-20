@@ -4,10 +4,16 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "products")
+@Table(
+        name = "products",
+        indexes = {
+            @Index(name = "idx_product_name", columnList = "name")
+        }
+)
 @Getter
 @Setter
 @AllArgsConstructor
@@ -25,11 +31,13 @@ public class Product {
     private String description;
 
     @Column(nullable = false)
-    private Double price;
+    private BigDecimal price;
 
     @Column(nullable = false)
     private Integer stock;
 
     @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createdAt;
+
 }

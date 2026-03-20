@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aditya.common.events.OrderCreatedEvent;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -41,9 +42,8 @@ public class OrderService {
                 .userId(user_id)
                 .productId(request.getProductId())
                 .quantity(request.getQuantity())
-                .amount(100.0 * request.getQuantity())
+                .amount(BigDecimal.valueOf(100.0 * request.getQuantity()))
                 .status(OrderStatus.CREATED)
-                .createdAt(LocalDateTime.now())
                 .build();
 
         Order savedOrder = orderRepository.save(order);
@@ -77,9 +77,7 @@ public class OrderService {
                 .quantity(savedOrder.getQuantity())
                 .build();
 
-        saveOutboxEvent(order, event);
-
-        orderEventProducer.sendOrderCreatedEvent(event);
+        saveOutboxEvent(savedOrder, event);
 
         return mapToResponse(savedOrder);
     }

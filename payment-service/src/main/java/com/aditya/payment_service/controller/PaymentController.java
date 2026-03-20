@@ -5,6 +5,7 @@ import com.aditya.payment_service.dto.PaymentResponse;
 import com.aditya.payment_service.service.PaymentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping
-    public PaymentResponse processPayment(@Valid @RequestBody PaymentRequest request) {
-        return paymentService.processPayment(request);
+    public ResponseEntity<PaymentResponse> processPayment(@Valid @RequestBody PaymentRequest request) {
+        return ResponseEntity.ok(paymentService.processPayment(request));
     }
 }

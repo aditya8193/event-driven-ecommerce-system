@@ -8,7 +8,6 @@ import com.aditya.product_service.exception.InsufficientStockException;
 import com.aditya.product_service.exception.ProductNotFoundException;
 import com.aditya.product_service.kafka.ProductEventProducer;
 import com.aditya.product_service.repository.ProductRepository;
-import org.aditya.common.events.StockReducedEvent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,8 +18,6 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +33,6 @@ public class ProductService {
                 .description(request.getDescription())
                 .price(request.getPrice())
                 .stock(request.getStock())
-                .createdAt(LocalDateTime.now())
                 .build();
 
         Product savedProduct = productRepository.save(product);
@@ -131,12 +127,7 @@ public class ProductService {
 
         product.setStock(product.getStock() - quantity);
 
-        productEventProducer.publishStockReduced(
-                StockReducedEvent.builder()
-                        .productId(product.getId())
-                        .quantity(product.getStock())
-                        .build()
-        );
+        productRepository.save(product);
     }
 
     private ProductResponse mapToResponse(Product product) {
